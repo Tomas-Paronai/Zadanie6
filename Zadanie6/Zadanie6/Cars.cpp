@@ -178,11 +178,11 @@ char *getDate(Date date) {
 	}
 	dateString[index++] = '.';
 	if (date.month>9) {
-		dateString[index++] = date.day / 10 + 48;
-		dateString[index++] = date.day % 10 + 48;
+		dateString[index++] = date.month / 10 + 48;
+		dateString[index++] = date.month % 10 + 48;
 	}
 	else {
-		dateString[index++] = date.day % 10 + 48;
+		dateString[index++] = date.month % 10 + 48;
 	}
 	dateString[index++] = '.';
 
