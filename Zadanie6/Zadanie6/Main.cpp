@@ -36,6 +36,14 @@ int main(int argc, char** argv) {
 	printf("\nBY PLATE BJ-554CA:\n");
 	findCarBySPZ(car, n, "BJ-554CA");
 
+	if (generateXML(car, n)) {
+		printf("\nXML READY\n");
+	}
+	else {
+		printf("\nFAILED TO GENERATE XML\n");
+	}
+
 	printf("\n");
+
 	return 0;
 }

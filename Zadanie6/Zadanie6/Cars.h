@@ -108,3 +108,24 @@ char *getDate(Date date);
 //skopiruje auto
 void copyCar(Car *orig, Car *newCar);
 
+//vrati retazec rok
+char *getYear(int year);
+
+//vrati retazec den
+char *getDay(int day);
+
+//vrati retazec mesiac
+char *getMonth(int month);
+
+//vygeneruje XML subor
+bool generateXML(Car *car, int n);
+
+//prida dalsi xml element
+void nextElement(FILE *file, char *tag, char *value, char *atribute, char *attValue, int level);
+
+//pridat dalsi xml element obsahujuci podelementy
+void nextStructElement(FILE *file, char *root_tag, char **child, char **values, int n, char *att, char *attValue, int step);
+
+//odkrokuje urovne xml (nefunguje)
+void level(FILE *out, int step);
+

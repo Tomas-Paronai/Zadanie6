@@ -167,7 +167,7 @@ char *getColor(Color color) {
 
 char *getDate(Date date) {
 	//printf("GET DATE\n");
-	char *dateString = (char*)malloc(sizeof(char) * 11);
+	char *dateString = (char*)malloc(sizeof(char) * 12);
 	int index = 0;
 	if (date.day>9) {
 		dateString[index++] = date.day / 10 + 48;
@@ -198,6 +198,50 @@ char *getDate(Date date) {
 
 
 	return dateString;
+}
+char *getDay(int day) {
+	char *dayString;
+	if (day < 10) {
+		dayString = (char*)malloc(sizeof(char) * 2);
+		dayString[0] = day + 48;
+		dayString[1] = '\0';
+	}
+	else {
+		dayString = (char*)malloc(sizeof(char) * 3);
+		dayString[0] = day / 10 + 48;
+		dayString[1] = day % 10 + 48;
+		dayString[2] = '\0';
+	}
+	return dayString;
+}
+char *getMonth(int month) {
+	char *monthString;
+	if (month < 10) {
+		monthString = (char*)malloc(sizeof(char) * 2);
+		monthString[0] = month + 48;
+		monthString[1] = '\0';
+	}
+	else {
+		monthString = (char*)malloc(sizeof(char) * 3);
+		monthString[0] = month / 10 + 48;
+		monthString[1] = month % 10 + 48;
+		monthString[2] = '\0';
+	}
+	return monthString;
+}
+char *getYear(int year) {
+	char yearString[5];
+	int index = 0;
+	int c1 = year / 1000;
+	int c2 = (year - c1 * 1000) / 100;
+	int c3 = (year - c1 * 1000 - c2 * 100) / 10;
+	int c4 = (year - c1 * 1000 - c2 * 100) % 10;
+	yearString[index++] = c1 + 48;
+	yearString[index++] = c2 + 48;
+	yearString[index++] = c3 + 48;
+	yearString[index++] = c4 + 48;
+	yearString[index] = '\0';
+	return yearString;
 }
 
 bool findCarBySPZ(Car *car, int n, char *spz) {
@@ -304,17 +348,83 @@ float calculateAverageValue(Car *car, int n) {
 //vygeneruje XML subor
 bool generateXML(Car *car, int n) {
 	FILE *xmlOut = fopen("cars.xml", "w");
+	int i;
 	if (xmlOut != NULL) {
 		fprintf(xmlOut, "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n");
+		fprintf(xmlOut, "<cars>\n");
+		for (i = 0; i < n; i++) {
 
+			
+			fprintf(xmlOut, "\n\t<car id=%d>\n", i + 1); //item start			
+			nextElement(xmlOut, "brand", car[i].brand, "type", car[i].type, 2);	//brand & type
+			nextElement(xmlOut, "color", getColor(car[i].color), NULL, NULL, 2); //color
+			nextElement(xmlOut, "year", getYear(car[i].year),NULL,NULL,2); //year
+
+			char temp[2]; //fuel
+			temp[0] = car[i].fuel;
+			temp[1] = '\0';
+			nextElement(xmlOut, "fuel", temp, NULL, NULL, 2);
+
+			//date
+			char **tags = (char**)malloc(sizeof(char*) * 3); //tags
+			tags[0] = (char*)malloc(sizeof(char) * 4);
+			strcpy(tags[0], "day\0");
+			tags[1] = (char*)malloc(sizeof(char) * 6);
+			strcpy(tags[1], "month\0");
+			tags[2] = (char*)malloc(sizeof(char) * 5);
+			strcpy(tags[2], "year\0");
+			char **values = (char**)malloc(sizeof(char*) * 3); //values
+			values[0] = (char*)malloc(sizeof(char) * (strlen(getDay(car[i].evidDate.day)) + 1));
+			strcpy(values[0], getDay(car[i].evidDate.day));
+			values[1] = (char*)malloc(sizeof(char) * (strlen(getMonth(car[i].evidDate.month)) + 1));
+			strcpy(values[1], getMonth(car[i].evidDate.month));
+			values[2] = (char*)malloc(sizeof(char) * (strlen(getYear(car[i].evidDate.year)) + 1));
+			strcpy(values[2], getYear(car[i].evidDate.year));
+			nextStructElement(xmlOut, "date", tags, values, 3, NULL, NULL, 2); 
+
+			nextElement(xmlOut, "plate", car[i].licansePlate, NULL, NULL, 2); //licanse plate
+			fprintf(xmlOut, "\t<performance>%d KW</performance>\n", car[i].performance); //performance
+			fprintf(xmlOut, "\t<driven>%d km</driven>\n", car[i].driven); //driven
+			fprintf(xmlOut, "\t</car>\n"); //item end
+		}
+		fprintf(xmlOut, "\n</cars>\n");
 		return true;
 	}
 
 	return false;
 }
 
-void nextElement(FILE *file, char *tag, char *value) {
-	fprintf(file, "\t<%s>%s</%s>", tag, value, tag);
+void nextElement(FILE *file, char *tag, char *value, char *atribute, char *attValue,  int step) {
+	level(file, step);
+	fprintf(file, "<%s ", tag);
+
+	if (atribute != NULL && attValue != NULL) {
+		fprintf(file, "%s=%s", atribute, attValue);
+	}
+
+	fprintf(file, ">%s</%s>\n",value, tag);
+}
+
+void nextStructElement(FILE *file, char *root_tag, char **child, char **values, int n, char *att, char *attValue, int step) {
+	level(file,step);
+	fprintf(file, "<%s ", root_tag);
+
+	if (att != NULL && attValue != NULL) {
+		fprintf(file, "%s=%s", att, attValue);
+	}
+	fprintf(file, ">\n");
+	int i = 0;
+	for (i; i < n; i++) {
+		nextElement(file, child[i], values[i], NULL, NULL, step + 1);
+	}
+	level(file, step);
+	fprintf(file, "</%s>\n", root_tag);
+}
+
+void level(FILE *out,int step) {
+	for (step; step <= 0; step--) {
+		fprintf(out, "\t");
+	}
 }
 
 Date parseDate(char* string) {
