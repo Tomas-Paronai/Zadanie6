@@ -230,7 +230,7 @@ char *getMonth(int month) {
 	return monthString;
 }
 char *getYear(int year) {
-	char yearString[5];
+	char *yearString = (char*)malloc(sizeof(char)*5);
 	int index = 0;
 	int c1 = year / 1000;
 	int c2 = (year - c1 * 1000) / 100;
@@ -356,7 +356,7 @@ bool generateXML(Car *car, int n) {
 
 			
 			fprintf(xmlOut, "\n\t<car id=%d>\n", i + 1); //item start			
-			nextElement(xmlOut, "brand", car[i].brand, "type", car[i].type, 2);	//brand & type
+			nextElement(xmlOut, "type", car[i].type, "brand", car[i].brand, 2);	//brand & type
 			nextElement(xmlOut, "color", getColor(car[i].color), NULL, NULL, 2); //color
 			nextElement(xmlOut, "year", getYear(car[i].year),NULL,NULL,2); //year
 
@@ -422,7 +422,7 @@ void nextStructElement(FILE *file, char *root_tag, char **child, char **values, 
 }
 
 void level(FILE *out,int step) {
-	for (step; step <= 0; step--) {
+	for (step; step >= 0; step--) {
 		fprintf(out, "\t");
 	}
 }
