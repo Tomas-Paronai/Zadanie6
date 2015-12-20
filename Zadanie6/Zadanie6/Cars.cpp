@@ -120,47 +120,47 @@ char *getColor(Color color) {
 	switch (color) {
 	case RED:
 		colorString = (char*)malloc(sizeof(char)*(strlen("red") + 1));
-		strcpy(colorString, "red\0");
+		strcpy(colorString, "RED\0");
 		return colorString;
 	case BLUE:
 		colorString = (char*)malloc(sizeof(char)*(strlen("blue") + 1));
-		strcpy(colorString, "blue\0");
+		strcpy(colorString, "BLUE\0");
 		return colorString;
 	case GREEN:
 		colorString = (char*)malloc(sizeof(char)*(strlen("green") + 1));
-		strcpy(colorString, "green\0");
+		strcpy(colorString, "GREEN\0");
 		return colorString;
 	case SILVER:
 		colorString = (char*)malloc(sizeof(char)*(strlen("dark_blue") + 1));
-		strcpy(colorString, "silver\0");
+		strcpy(colorString, "SILVER\0");
 		return colorString;
 	case BROWN:
 		colorString = (char*)malloc(sizeof(char)*(strlen("dark_green") + 1));
-		strcpy(colorString, "brown\0");
+		strcpy(colorString, "BROWN\0");
 		return colorString;
 	case ORANGE:
 		colorString = (char*)malloc(sizeof(char)*(strlen("orange") + 1));
-		strcpy(colorString, "orange\0");
+		strcpy(colorString, "ORANGE\0");
 		return colorString;
 	case YELLOW:
 		colorString = (char*)malloc(sizeof(char)*(strlen("yellow") + 1));
-		strcpy(colorString, "yellow\0");
+		strcpy(colorString, "YELLOW\0");
 		return colorString;
 	case WHITE:
 		colorString = (char*)malloc(sizeof(char)*(strlen("white") + 1));
-		strcpy(colorString, "white\0");
+		strcpy(colorString, "WHITE\0");
 		return colorString;
 	case GRAY:
 		colorString = (char*)malloc(sizeof(char)*(strlen("gray") + 1));
-		strcpy(colorString, "gray\0");
+		strcpy(colorString, "GRAY\0");
 		return colorString;
 	case BLACK:
 		colorString = (char*)malloc(sizeof(char)*(strlen("black") + 1));
-		strcpy(colorString, "black\0");
+		strcpy(colorString, "BLACK\0");
 		return colorString;
 	}
 	colorString = (char*)malloc(sizeof(char)*(strlen("uknown") + 1));
-	strcpy(colorString, "uknown\0");
+	strcpy(colorString, "UKNOWN\0");
 	return colorString;
 }
 
@@ -478,39 +478,39 @@ int parseYear(char* string) {
 Color parseColor(char* string) {
 	Color color;
 
-	if (strcmp(string, "red") == 0) {
+	if (strcmp(string, "RED") == 0) {
 		color = RED;
 		return color;
 	}
-	else if (strcmp(string, "green") == 0) {
+	else if (strcmp(string, "GREEN") == 0) {
 		color = GREEN;
 		return color;
 	}
-	else if (strcmp(string, "blue") == 0) {
+	else if (strcmp(string, "BLUE") == 0) {
 		color = BLUE;
 		return color;
 	}
-	else if (strcmp(string, "silver") == 0) {
+	else if (strcmp(string, "SILVER") == 0) {
 		color = SILVER;
 		return color;
 	}
-	else if (strcmp(string, "brown") == 0) {
+	else if (strcmp(string, "BROWN") == 0) {
 		color = BROWN;
 		return color;
 	}
-	else if (strcmp(string, "orange") == 0) {
+	else if (strcmp(string, "ORANGE") == 0) {
 		color = ORANGE;
 		return color;
 	}
-	else if (strcmp(string, "yellow") == 0) {
+	else if (strcmp(string, "YELLOW") == 0) {
 		color = YELLOW;
 		return color;
 	}
-	else if (strcmp(string, "gray") == 0) {
+	else if (strcmp(string, "GRAY") == 0) {
 		color = GRAY;
 		return color;
 	}
-	else if (strcmp(string, "black") == 0) {
+	else if (strcmp(string, "BLACK") == 0) {
 		color = BLACK;
 		return color;
 	}
