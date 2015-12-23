@@ -337,10 +337,10 @@ void printCarsByColor(Car *car, int n, Color color) {
 
 //vypocita priemerny pocet km zo vsetkych aut
 float calculateAverageValue(Car *car, int n) {
-	int i = n;
+	int i = 0;
 	float avg = 0;
-	for (i - 1; i >= 0; i--) {
-		avg += car[n].driven;
+	for (i; i < n; i++) {
+		avg += car[i].driven;
 	}
 	return avg / n;
 }
